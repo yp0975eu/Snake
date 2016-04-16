@@ -7,12 +7,11 @@ import javax.swing.*;
 
 public class SnakeGame {
 
-	public final static int xPixelMaxDimension = 501;  //Pixels in window. 501 to have 50-pixel squares plus 1 to draw a border on last square
+	//Pixels in window. 501 to have 50-pixel squares plus 1 to draw a border on last square
+	public final static int xPixelMaxDimension = 501;
 	public final static int yPixelMaxDimension = 501;
-
 	public static int xSquares ;
 	public static int ySquares ;
-
 	public final static int squareSize = 50;
 
 	protected static Snake snake ;
@@ -21,16 +20,19 @@ public class SnakeGame {
 
 	protected static Score score;
 
+	//The numerical values of these variables are not important.
+	//The important thing is to use the constant instead of the values so you are clear what you are setting.
+	//Easy to forget what number is Game over vs. game won
+	//Using constant names instead makes it easier to keep it straight. Refer to these variables
+	//using statements such as SnakeGame.GAME_OVER
 	static final int BEFORE_GAME = 1;
 	static final int DURING_GAME = 2;
 	static final int GAME_OVER = 3;
-	static final int GAME_WON = 4;   //The numerical values of these variables are not important. The important thing is to use the constants
-	//instead of the values so you are clear what you are setting. Easy to forget what number is Game over vs. game won
-	//Using constant names instead makes it easier to keep it straight. Refer to these variables 
-	//using statements such as SnakeGame.GAME_OVER 
+	static final int GAME_WON = 4;
 
-	private static int gameStage = BEFORE_GAME;  //use this to figure out what should be happening. 
+	//use this to figure out what should be happening.
 	//Other classes like Snake and DrawSnakeGamePanel will query this, and change its value
+	private static int gameStage = BEFORE_GAME;
 
 	protected static long clockInterval = 500; //controls game speed
 	//Every time the clock ticks, the snake moves
@@ -63,7 +65,9 @@ public class SnakeGame {
 
 		snakeFrame.setSize(xPixelMaxDimension, yPixelMaxDimension);
 		snakeFrame.setUndecorated(true); //hide title bar
+		// BA: show the frame
 		snakeFrame.setVisible(true);
+		// BA: disable resizable window
 		snakeFrame.setResizable(false);
 
 		snakePanel = new DrawSnakeGamePanel(componentManager);
@@ -77,26 +81,26 @@ public class SnakeGame {
 		snakePanel.addKeyListener(new GameControls());
 		snakePanel.addKeyListener(new SnakeControls(snake));
 
-		setGameStage(BEFORE_GAME);
+		// BA: game stage already set in initializeGame()
+		// GameStage(BEFORE_GAME);
 
-		snakeFrame.setVisible(true);
+		// BA: duplicate code, same as line 69,  not needed
+		// snakeFrame.setVisible(true);
 	}
 
 	private static void initializeGame() {
 
 		//set up score, snake and first kibble
+		// BA: int division truncates decimal
 		xSquares = xPixelMaxDimension / squareSize;
 		ySquares = yPixelMaxDimension / squareSize;
 
 		componentManager = new GameComponentManager();
 		snake = new Snake(xSquares, ySquares, squareSize);
 		Kibble kibble = new Kibble(snake);
-
 		componentManager.addSnake(snake);
 		componentManager.addKibble(kibble);
-
 		score = new Score();
-
 		componentManager.addScore(score);
 
 		gameStage = BEFORE_GAME;

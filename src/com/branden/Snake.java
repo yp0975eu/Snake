@@ -50,6 +50,7 @@ public class Snake {
 		snakeSquares[screenXCenter+1][screenYCenter] = 2;
 		snakeSquares[screenXCenter+2][screenYCenter] = 3;
 
+		// BA: initialize the snake head, size, heading justAteMustGrowThisMuch
 		snakeHeadX = screenXCenter;
 		snakeHeadY = screenYCenter;
 
