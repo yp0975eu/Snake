@@ -82,7 +82,7 @@ public class SnakeGame {
 		snakePanel.addKeyListener(new SnakeControls(snake));
 
 		// BA: game stage already set in initializeGame()
-		// GameStage(BEFORE_GAME);
+		// setGameStage(BEFORE_GAME);
 
 		// BA: duplicate code, same as line 69,  not needed
 		// snakeFrame.setVisible(true);

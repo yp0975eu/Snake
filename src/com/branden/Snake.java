@@ -182,11 +182,25 @@ public class Snake {
 			snakeHeadX ++ ;
 		}
 
+		// IF THE SNAKE HITS WALL, GAME OVER
 		//Does this make snake hit the wall?
-		if (snakeHeadX >= maxX || snakeHeadX < 0 || snakeHeadY >= maxY || snakeHeadY < 0 ) {
-			hitWall = true;	
+		/*if (snakeHeadX >= maxX || snakeHeadX < 0 || snakeHeadY >= maxY || snakeHeadY < 0 ) {
+			hitWall = true;
 			SnakeGame.setGameStage(SnakeGame.GAME_OVER);
 			return;
+		}*/
+		// IF SNAKE HITS WALL THEN WARP TO NEXT SIDE OF SCREEN
+		// if it's reached the max or min, then set it to the opposite.
+		if (snakeHeadX >= maxX){
+			snakeHeadX = 0;
+		} else if (snakeHeadX < 0 ){
+			// maxX - 1, because we don't want the snake to be offscreen
+			snakeHeadX = maxX-1;
+		} else if (snakeHeadY >= maxY){
+			snakeHeadY = 0;
+		} else if (snakeHeadY < 0 ) {
+			// again, we don't wan the snake to be offscreen
+			snakeHeadY = maxY-1;
 		}
 
 		//Does this make the snake eat its tail?
