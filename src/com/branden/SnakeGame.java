@@ -48,18 +48,15 @@ public class SnakeGame {
 
 
 	public static void main(String[] args) {
-		//Schedule a job for the event-dispatching thread:
-		//creating and showing this application's GUI.
-		SwingUtilities.invokeLater(new Runnable() {
-			public void run() {
-				initializeGame();
-				createAndShowGUI();
-			}
-		});
+		// pass snakegame to options so that the event listener can trigger the newgame routine
+		Options options = new Options(new SnakeGame());
+
+
+
 	}
 
 
-	private static void createAndShowGUI() {
+	protected static void createAndShowGUI() {
 		//Create and set up the window.
 		snakeFrame = new JFrame();
 		snakeFrame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
@@ -89,7 +86,7 @@ public class SnakeGame {
 		// snakeFrame.setVisible(true);
 	}
 
-	private static void initializeGame() {
+	protected static void initializeGame() {
 
 		//set up score, snake and first kibble
 		// BA: int division truncates decimal
