@@ -17,11 +17,13 @@ public class DrawSnakeGamePanel extends JPanel {
 	private Snake snake;
 	private Kibble kibble;
 	private Score score;
-	
+	private Maze maze;
+
 	DrawSnakeGamePanel(GameComponentManager components){
 		this.snake = components.getSnake();
 		this.kibble = components.getKibble();
 		this.score = components.getScore();
+		this.maze = components.getMaze();
 	}
 	
 	public Dimension getPreferredSize() {
@@ -88,7 +90,9 @@ public class DrawSnakeGamePanel extends JPanel {
 	private void displayGame(Graphics g) {
 		displayGameGrid(g);
 		displaySnake(g);
-		displayKibble(g);	
+		displayKibble(g);
+		displayMaze(g);
+
 	}
 
 	private void displayGameGrid(Graphics g) {
@@ -123,7 +127,6 @@ public class DrawSnakeGamePanel extends JPanel {
 		
 	}
 
-
 	private void displaySnake(Graphics g) {
 
 		LinkedList<Point> coordinates = snake.segmentsToDraw();
@@ -140,6 +143,14 @@ public class DrawSnakeGamePanel extends JPanel {
 		}
 	}
 
+	private void displayMaze(Graphics g) {
+		// set maze color the same as grid color
+		g.setColor(Color.RED);
+		LinkedList<Point> coordinates = maze.segmentsToDraw();
+		for (Point p : coordinates) {
+			g.fillRect((int)p.getX(), (int)p.getY(), SnakeGame.squareSize, SnakeGame.squareSize);
+		}
+	}
 
 	private void displayInstructions(Graphics g) {
         g.drawString("Press any key to begin!",100,200);		

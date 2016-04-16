@@ -8,6 +8,7 @@ public class GameComponentManager {
     private Kibble kibble;
     private Snake snake;
     private Score score;
+    private Maze maze;
 
     /** Called every clock tick. Tell components to interact/update,
      * manage interactions, update score etc.
@@ -16,16 +17,20 @@ public class GameComponentManager {
      * they could be managed here too
      */
     public void update() {
-        snake.moveSnake();
+
+        snake.moveSnake(maze);
         if (snake.didEatKibble(kibble)) {
 			//tell kibble to update
+            maze.addBlock(snake);
             kibble.moveKibble(snake);
             Score.increaseScore();
+
 		}
     }
 
     public void newGame() {
         snake.reset();
+        maze.reset();
     }
 
 
@@ -40,6 +45,9 @@ public class GameComponentManager {
     public void addScore(Score score) {
         this.score = score;
     }
+    public void addMaze(Maze maze) {
+        this.maze = maze;
+    }
 
     public Score getScore() {
         return score;
@@ -52,5 +60,11 @@ public class GameComponentManager {
     public Snake getSnake() {
         return snake;
     }
+
+    public Maze getMaze() {
+        return maze;
+    }
+
+
 
 }

@@ -15,6 +15,7 @@ public class SnakeGame {
 	public final static int squareSize = 50;
 
 	protected static Snake snake ;
+	protected static Maze maze ;
 
 	private static GameComponentManager componentManager;
 
@@ -97,9 +98,11 @@ public class SnakeGame {
 
 		componentManager = new GameComponentManager();
 		snake = new Snake(xSquares, ySquares, squareSize);
+		maze = new Maze(xSquares, ySquares, squareSize);
 		Kibble kibble = new Kibble(snake);
 		componentManager.addSnake(snake);
 		componentManager.addKibble(kibble);
+		componentManager.addMaze(maze);
 		score = new Score();
 		componentManager.addScore(score);
 

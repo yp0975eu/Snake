@@ -1,0 +1,69 @@
+package com.branden;
+
+import java.awt.*;
+import java.util.LinkedList;
+import java.util.Random;
+
+/* Randomly add blocks to playing field. Snake cannot go through maze blocks */
+public class Maze extends Gameboard{
+    // number of blocks that make up the maze
+    private int numberOfBlocks = 0;
+    private int[][] mazeBlocks;
+    private int blockX;
+    private int blockY;
+
+    public Maze(int maxX, int maxY, int squareSize){
+        super(maxX, maxY, squareSize);
+        // assign local mazeBlocks reference with empty gameboard array
+        mazeBlocks = emptyGameboard;
+    }
+
+    /**
+     * Gets an empty space to add a random maze block to.
+    * */
+    protected void addBlock(Snake s){
+
+        Random rng = new Random();
+        // check if new maze block is in snake
+        boolean blockInSnake = true;
+        boolean blockInMaze = true;
+
+        // both must be false to continue
+        while (blockInSnake == true || blockInMaze == true) {
+            //Generate random location
+            blockX = rng.nextInt(SnakeGame.xSquares);
+            blockY = rng.nextInt(SnakeGame.ySquares);
+            // test if in snake
+            blockInSnake = s.isSnakeSegment(blockX, blockY);
+            // test if in maze
+            blockInMaze = isBlockInMaze(blockX, blockY);
+        }
+        // change coordinate (blockX, blockY) inside mazeBlocks to indicate an active maze block
+        mazeBlocks[blockX][blockY] = 1;
+        numberOfBlocks++;
+
+    }
+
+    // returns true if coordinates in mazeBlocks are active
+    private boolean isBlockInMaze( int blockX, int blockY){
+        return mazeBlocks[blockX][blockY] == 1 ? true : false;
+    }
+
+    public LinkedList<Point> segmentsToDraw(){
+        //Return a list of the actual x and y coordinates of the top left of each maze block
+        return super.segmentsToDraw(numberOfBlocks,mazeBlocks);
+
+    }
+    public void reset() {
+        // reset game board with zeros
+        fillGameboardWithZeros();
+        // assign gameboard reference to local variable mazeBlocks
+        mazeBlocks = emptyGameboard;
+    }
+
+    // returns a single block
+    public int getMazeBlock(int xCord, int yCord) {
+        return mazeBlocks[xCord][yCord];
+    }
+
+}

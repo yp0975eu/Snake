@@ -3,7 +3,7 @@ package com.branden;
 import java.awt.Point;
 import java.util.LinkedList;
 
-public class Snake {
+public class Snake extends Gameboard{
 
 	final int DIRECTION_UP = 0;
 	final int DIRECTION_DOWN = 1;
@@ -27,17 +27,14 @@ public class Snake {
 	private int growthIncrement = 2; //how many squares the snake grows after it eats a kibble
 
 	private int justAteMustGrowThisMuch = 0;
-
-	private int maxX, maxY, squareSize;  
+	// BA: Moved to superclass
+	//private int maxX, maxY, squareSize;
 	private int snakeHeadX, snakeHeadY; //store coordinates of head - first segment
 
 	public Snake(int maxX, int maxY, int squareSize){
-		this.maxX = maxX;
-		this.maxY = maxY;
-		this.squareSize = squareSize;
-		//Create and fill snakeSquares with 0s 
-		snakeSquares = new int[maxX][maxY];
-		fillSnakeSquaresWithZeros();
+		super(maxX, maxY,squareSize);
+		//assign emptyGameboard reference to the local snakeSquares array
+		snakeSquares = emptyGameboard;
 		createStartSnake();
 	}
 
@@ -62,31 +59,10 @@ public class Snake {
 		justAteMustGrowThisMuch = 0;
 	}
 
-	private void fillSnakeSquaresWithZeros() {
-		for (int x = 0; x < this.maxX; x++){
-			for (int y = 0 ; y < this.maxY ; y++) {
-				snakeSquares[x][y] = 0;
-			}
-		}
-	}
-
 	public LinkedList<Point> segmentsToDraw(){
 		//Return a list of the actual x and y coordinates of the top left of each snake segment
 		//Useful for the Panel class to draw the snake
-		LinkedList<Point> segmentCoordinates = new LinkedList<Point>();
-		for (int segment = 1 ; segment <= snakeSize ; segment++ ) {
-			//search array for each segment number
-			for (int x = 0 ; x < maxX ; x++) {
-				for (int y = 0 ; y < maxY ; y++) {
-					if (snakeSquares[x][y] == segment){
-						//make a Point for this segment's coordinates and add to list
-						Point p = new Point(x * squareSize , y * squareSize);
-						segmentCoordinates.add(p);
-					}
-				}
-			}
-		}
-		return segmentCoordinates;
+		return super.segmentsToDraw(snakeSize,snakeSquares);
 
 	}
 
@@ -107,12 +83,13 @@ public class Snake {
 		currentHeading = DIRECTION_RIGHT;
 	}
 
-//	public void	eatKibble(){
-//		//record how much snake needs to grow after eating food
-//		justAteMustGrowThisMuch += growthIncrement;
-//	}
+	//	public void	eatKibble(){
+	//		//record how much snake needs to grow after eating food
+	//		justAteMustGrowThisMuch += growthIncrement;
+	//	}
 
-	protected void moveSnake(){
+	// BA: needs maze parameter to test if it has hit the maze
+	protected void moveSnake(Maze maze){
 		//Called every clock tick
 		
 		//Must check that the direction snake is being sent in is not contrary to current heading
@@ -182,31 +159,32 @@ public class Snake {
 			snakeHeadX ++ ;
 		}
 
-		// IF THE SNAKE HITS WALL, GAME OVER
+		// BA: IF THE SNAKE HITS WALL, GAME OVER
 		//Does this make snake hit the wall?
 		/*if (snakeHeadX >= maxX || snakeHeadX < 0 || snakeHeadY >= maxY || snakeHeadY < 0 ) {
 			hitWall = true;
 			SnakeGame.setGameStage(SnakeGame.GAME_OVER);
 			return;
 		}*/
-		// IF SNAKE HITS WALL THEN WARP TO NEXT SIDE OF SCREEN
+
+		// BA: IF SNAKE HITS WALL THEN WARP TO NEXT SIDE OF SCREEN
 		// if it's reached the max or min, then set it to the opposite.
 		if (snakeHeadX >= maxX){
 			snakeHeadX = 0;
 		} else if (snakeHeadX < 0 ){
-			// maxX - 1, because we don't want the snake to be offscreen
+			// BA: maxX - 1, because we don't want the snake to be offscreen
 			snakeHeadX = maxX-1;
 		} else if (snakeHeadY >= maxY){
 			snakeHeadY = 0;
 		} else if (snakeHeadY < 0 ) {
-			// again, we don't wan the snake to be offscreen
+			// BA: again, we don't wan the snake to be offscreen
 			snakeHeadY = maxY-1;
 		}
 
 		//Does this make the snake eat its tail?
+		// BA: did ths snake hit the maze?
 
-		if (snakeSquares[snakeHeadX][snakeHeadY] != 0) {
-
+		if (snakeSquares[snakeHeadX][snakeHeadY] != 0 || maze.getMazeBlock(snakeHeadX, snakeHeadY) != 0 ) {
 			ateTail = true;
 			SnakeGame.setGameStage(SnakeGame.GAME_OVER);
 			return;
@@ -286,7 +264,10 @@ public class Snake {
 	public void reset() {
 		hitWall = false;
 		ateTail = false;
-		fillSnakeSquaresWithZeros();
+		// reset game board with zeros
+		fillGameboardWithZeros();
+		// assign gameboard reference to local variable snakeSquares
+		snakeSquares = emptyGameboard;
 		createStartSnake();
 
 	}
