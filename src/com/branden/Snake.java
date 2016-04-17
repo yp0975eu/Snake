@@ -159,30 +159,34 @@ public class Snake extends Gameboard{
 			snakeHeadX ++ ;
 		}
 
-		// BA: IF THE SNAKE HITS WALL, GAME OVER
-		//Does this make snake hit the wall?
-		/*if (snakeHeadX >= maxX || snakeHeadX < 0 || snakeHeadY >= maxY || snakeHeadY < 0 ) {
-			hitWall = true;
-			SnakeGame.setGameStage(SnakeGame.GAME_OVER);
-			return;
-		}*/
 
-		// BA: IF SNAKE HITS WALL THEN WARP TO NEXT SIDE OF SCREEN
-		// if it's reached the max or min, then set it to the opposite.
-		if (snakeHeadX >= maxX){
-			snakeHeadX = 0;
-		} else if (snakeHeadX < 0 ){
-			// BA: maxX - 1, because we don't want the snake to be offscreen
-			snakeHeadX = maxX-1;
-		} else if (snakeHeadY >= maxY){
-			snakeHeadY = 0;
-		} else if (snakeHeadY < 0 ) {
-			// BA: again, we don't wan the snake to be offscreen
-			snakeHeadY = maxY-1;
+		if ( SnakeGame.useWarp() ) {
+			// BA: IF SNAKE HITS WALL THEN WARP TO NEXT SIDE OF SCREEN
+			// if it's reached the max or min, then set it to the opposite.
+			if (snakeHeadX >= maxX) {
+				snakeHeadX = 0;
+			} else if (snakeHeadX < 0) {
+				// BA: maxX - 1, because we don't want the snake to be offscreen
+				snakeHeadX = maxX - 1;
+			} else if (snakeHeadY >= maxY) {
+				snakeHeadY = 0;
+			} else if (snakeHeadY < 0) {
+				// BA: again, we don't wan the snake to be offscreen
+				snakeHeadY = maxY - 1;
+			}
+		} else{
+			// BA: IF THE SNAKE HITS WALL, GAME OVER
+			//Does this make snake hit the wall?
+			if (snakeHeadX >= maxX || snakeHeadX < 0 || snakeHeadY >= maxY || snakeHeadY < 0 ) {
+				hitWall = true;
+				SnakeGame.setGameStage(SnakeGame.GAME_OVER);
+				return;
+			}
 		}
 
 		//Does this make the snake eat its tail?
 		// BA: did ths snake hit the maze?
+		// if the maze is inactive then all the blocks will equal 0
 
 		if (snakeSquares[snakeHeadX][snakeHeadY] != 0 || maze.getMazeBlock(snakeHeadX, snakeHeadY) != 0 ) {
 			ateTail = true;

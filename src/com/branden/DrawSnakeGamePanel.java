@@ -101,9 +101,9 @@ public class DrawSnakeGamePanel extends JPanel {
 		int maxY= SnakeGame.yPixelMaxDimension;
 		int squareSize = SnakeGame.squareSize;
 		
-		g.clearRect(0, 0, maxX, maxY);
+		g.fillRect(0, 0, maxX, maxY);
 
-		g.setColor(Color.RED);
+		g.setColor(Color.BLACK);
 
 		//Draw grid - horizontal lines
 		for (int y=0; y <= maxY ; y+= squareSize){			
@@ -118,7 +118,7 @@ public class DrawSnakeGamePanel extends JPanel {
 	private void displayKibble(Graphics g) {
 
 		//Draw the kibble in green
-		g.setColor(Color.GREEN);
+		g.setColor(Color.WHITE);
 
 		int x = kibble.getKibbleX() * SnakeGame.squareSize;
 		int y = kibble.getKibbleY() * SnakeGame.squareSize;
@@ -132,12 +132,12 @@ public class DrawSnakeGamePanel extends JPanel {
 		LinkedList<Point> coordinates = snake.segmentsToDraw();
 		
 		//Draw head in grey
-		g.setColor(Color.LIGHT_GRAY);
+		g.setColor(Color.WHITE);
 		Point head = coordinates.pop();
 		g.fillRect((int)head.getX(), (int)head.getY(), SnakeGame.squareSize, SnakeGame.squareSize);
 		
 		//Draw rest of snake in black
-		g.setColor(Color.BLACK);
+		g.setColor(Color.WHITE);
 		for (Point p : coordinates) {
 			g.fillRect((int)p.getX(), (int)p.getY(), SnakeGame.squareSize, SnakeGame.squareSize);
 		}
@@ -145,7 +145,7 @@ public class DrawSnakeGamePanel extends JPanel {
 
 	private void displayMaze(Graphics g) {
 		// set maze color the same as grid color
-		g.setColor(Color.RED);
+		g.setColor(Color.DARK_GRAY);
 		LinkedList<Point> coordinates = maze.segmentsToDraw();
 		for (Point p : coordinates) {
 			g.fillRect((int)p.getX(), (int)p.getY(), SnakeGame.squareSize, SnakeGame.squareSize);

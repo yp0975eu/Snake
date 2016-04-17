@@ -1,5 +1,6 @@
 package com.branden;
 
+import java.util.HashMap;
 import java.util.Timer;
 
 import javax.swing.*;
@@ -7,17 +8,22 @@ import javax.swing.*;
 
 public class SnakeGame {
 
-	//Pixels in window. 501 to have 50-pixel squares plus 1 to draw a border on last square
-	public final static int xPixelMaxDimension = 501;
-	public final static int yPixelMaxDimension = 501;
+	public static int xPixelMaxDimension;
+	public static int yPixelMaxDimension;
 	public static int xSquares ;
 	public static int ySquares ;
-	public final static int squareSize = 50;
+	public static int squareSize;
+	private static final int borderSize = 1;
+	// the snake will always be 1 tenth the boardGameWidth
+	private static final double snakeToWindowRatio = .01;
+
 
 	protected static Snake snake ;
 	protected static Maze maze ;
-
 	private static GameComponentManager componentManager;
+	// option variables
+	private static boolean useMazes;
+	private static boolean useWarp;
 
 	protected static Score score;
 
@@ -35,7 +41,7 @@ public class SnakeGame {
 	//Other classes like Snake and DrawSnakeGamePanel will query this, and change its value
 	private static int gameStage = BEFORE_GAME;
 
-	protected static long clockInterval = 500; //controls game speed
+	protected static long clockInterval; //controls game speed
 	//Every time the clock ticks, the snake moves
 	//This is the time between clock ticks, in milliseconds
 	//1000 milliseconds = 1 second.
@@ -45,15 +51,6 @@ public class SnakeGame {
 	//Framework for this class adapted from the Java Swing Tutorial, FrameDemo and Custom Painting Demo. You should find them useful too.
 	//http://docs.oracle.com/javase/tutorial/displayCode.html?code=http://docs.oracle.com/javase/tutorial/uiswing/examples/components/FrameDemoProject/src/components/FrameDemo.java
 	//http://docs.oracle.com/javase/tutorial/uiswing/painting/step2.html
-
-
-	public static void main(String[] args) {
-		// pass snakegame to options so that the event listener can trigger the newgame routine
-		Options options = new Options(new SnakeGame());
-
-
-
-	}
 
 
 	protected static void createAndShowGUI() {
@@ -95,11 +92,12 @@ public class SnakeGame {
 
 		componentManager = new GameComponentManager();
 		snake = new Snake(xSquares, ySquares, squareSize);
-		maze = new Maze(xSquares, ySquares, squareSize);
 		Kibble kibble = new Kibble(snake);
 		componentManager.addSnake(snake);
 		componentManager.addKibble(kibble);
+		maze = new Maze(xSquares, ySquares, squareSize, useMazes);
 		componentManager.addMaze(maze);
+
 		score = new Score();
 		componentManager.addScore(score);
 
@@ -120,5 +118,27 @@ public class SnakeGame {
 
 	public static void setGameStage(int gameStage) {
 		SnakeGame.gameStage = gameStage;
+	}
+
+	public static void setMaze( Boolean mazes){
+		useMazes = mazes;
+	}
+	public static void setWarp( Boolean warp){
+		useWarp = warp;
+	}
+	public static Boolean useWarp(){
+		return useWarp;
+	}
+	public static void setGameSpeed(int gs){
+		// auto type conversion from int to long
+		clockInterval = gs;
+	}
+
+	public static void setScreenSize(int windowSize){
+		//Pixels in window. 501 to have 50-pixel squares plus 1 to draw a border on last square
+		xPixelMaxDimension = windowSize + borderSize;
+		yPixelMaxDimension = windowSize + borderSize;
+
+		squareSize = (int)( windowSize * snakeToWindowRatio ) ;
 	}
 }

@@ -7,15 +7,17 @@ import java.util.Random;
 /* Randomly add blocks to playing field. Snake cannot go through maze blocks */
 public class Maze extends Gameboard{
     // number of blocks that make up the maze
+    private boolean isActive;
     private int numberOfBlocks = 0;
     private int[][] mazeBlocks;
     private int blockX;
     private int blockY;
 
-    public Maze(int maxX, int maxY, int squareSize){
+    public Maze(int maxX, int maxY, int squareSize, boolean isActive){
         super(maxX, maxY, squareSize);
         // assign local mazeBlocks reference with empty gameboard array
         mazeBlocks = emptyGameboard;
+        this.isActive = isActive;
     }
 
     /**
@@ -65,5 +67,7 @@ public class Maze extends Gameboard{
     public int getMazeBlock(int xCord, int yCord) {
         return mazeBlocks[xCord][yCord];
     }
-
+    public boolean isActive(){
+        return isActive;
+    }
 }
