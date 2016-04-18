@@ -67,6 +67,8 @@ public class Options extends JFrame{
                 mazes = mazesOnCheckBox.isSelected();
                 // check for warp
                 warp = warpWallsOnCheckBox.isSelected();
+
+
                 if (errors == 0) {
                     SwingUtilities.invokeLater(new Runnable() {
                         public void run() {

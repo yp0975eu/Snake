@@ -23,6 +23,7 @@ public class SnakeGame {
 	// option variables
 	private static boolean useMazes;
 	private static boolean useWarp;
+	private static boolean twoPlayerBattleMode;
 
 	//FINDBUGS
 	private static Score score;
@@ -94,6 +95,7 @@ public class SnakeGame {
 		componentManager = new GameComponentManager();
 		//FINDBUGS
 		setSnake(new Snake(xSquares, ySquares, squareSize));
+
 		Kibble kibble = new Kibble(getSnake());
 		componentManager.addSnake(getSnake());
 		componentManager.addKibble(kibble);
@@ -128,6 +130,12 @@ public class SnakeGame {
 
 	public static void setGameStage(int gameStage) {
 		SnakeGame.gameStage = gameStage;
+	}
+	public static void setTwoPlayerBattleMode( Boolean battleMode){
+		twoPlayerBattleMode = battleMode;
+	}
+	public static Boolean getTwoPlayerBattleMode(){
+		return twoPlayerBattleMode;
 	}
 
 	public static void setMaze( Boolean mazes){

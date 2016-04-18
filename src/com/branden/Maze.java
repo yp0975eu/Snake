@@ -12,6 +12,7 @@ public class Maze extends Gameboard{
     private int[][] mazeBlocks;
     private int blockX;
     private int blockY;
+    private static final int ACTIVE = 1;
 
     public Maze(int maxX, int maxY, int squareSize, boolean isActive){
         super(maxX, maxY, squareSize);
@@ -42,14 +43,14 @@ public class Maze extends Gameboard{
             blockInMaze = isBlockInMaze(blockX, blockY);
         }
         // change coordinate (blockX, blockY) inside mazeBlocks to indicate an active maze block
-        mazeBlocks[blockX][blockY] = 1;
+        mazeBlocks[blockX][blockY] = ACTIVE;
         numberOfBlocks++;
 
     }
 
     // returns true if coordinates in mazeBlocks are active
     private boolean isBlockInMaze( int blockX, int blockY){
-        return mazeBlocks[blockX][blockY] == 1 ? true : false;
+        return mazeBlocks[blockX][blockY] == ACTIVE ? true : false;
     }
 
     public LinkedList<Point> segmentsToDraw(){

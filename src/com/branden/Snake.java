@@ -110,10 +110,9 @@ public class Snake extends Gameboard{
 		if (currentHeading == DIRECTION_RIGHT && lastHeading == DIRECTION_LEFT) {
 			currentHeading = DIRECTION_LEFT; //keep going the same way
 		}
-		
-		//Did you hit the wall, snake? 
-		//Or eat your tail? Don't move. 
 
+		//Did you hit the wall, snake? 
+		//Or eat your tail? Don't move.
 		if (isGameOver()) {
 			SnakeGame.setGameStage(SnakeGame.GAME_OVER);
 			return;
