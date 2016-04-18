@@ -22,6 +22,7 @@ public class Options extends JFrame{
     private int screenSize;
     private boolean mazes;
     private boolean warp;
+    //FINDBUGS
     private int errors;
 
     Options(){

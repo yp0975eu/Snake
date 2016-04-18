@@ -4,6 +4,7 @@ import java.awt.Point;
 import java.util.LinkedList;
 
 public class Snake extends Gameboard{
+	//FINDBUGS
 	// changed to static because these belong to the class,
 	// private to prevent unauthorized access,
 	// final to prevent being written to.
@@ -240,6 +241,7 @@ public class Snake extends Gameboard{
 	}
 
 	public String toString(){
+		//FINDBUGS
 		// https://docs.oracle.com/javase/7/docs/api/java/lang/StringBuilder.html
 		// String builder needs to be initialized with a capacity.
 		// The capacity is the size of the snakeSquares array plus the number of rows to hold newline characters

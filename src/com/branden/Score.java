@@ -2,14 +2,14 @@ package com.branden;
 //Keeps track of, and display the user's score
 
 public class Score {
-
+	//FINDBUGS
 	private int score;
 	private int highScore = 0;
 	private int increment;
 	
 	public Score(){
 		score = 0;
-		setIncrement(1);  //how many points for eating a kibble
+		increment = 1;  //how many points for eating a kibble
 		//Possible TODO get more points for eating kibbles, the longer the snake gets?
 	}
 	
@@ -58,7 +58,7 @@ public class Score {
 	public String getStringHighScore() {
 		return Integer.toString(highScore);
 	}
-
+	// TODO add option to set increment in options GUI
 	public void setIncrement(int increment){
 		this.increment = increment;
 	}

@@ -6,7 +6,7 @@ import javax.swing.*;
 
 
 public class SnakeGame {
-
+	//FINDBUGS
 	private static int xPixelMaxDimension;
 	private static int yPixelMaxDimension;
 	private static int xSquares ;
@@ -16,7 +16,7 @@ public class SnakeGame {
 	// the snake will always be 1 tenth the boardGameWidth
 	private static final double snakeToWindowRatio = .01;
 
-
+	//FINDBUGS
 	private static Snake snake;
 	private static Maze maze;
 	private static GameComponentManager componentManager;
@@ -24,6 +24,7 @@ public class SnakeGame {
 	private static boolean useMazes;
 	private static boolean useWarp;
 
+	//FINDBUGS
 	private static Score score;
 
 	//The numerical values of these variables are not important.
@@ -40,6 +41,7 @@ public class SnakeGame {
 	//Other classes like Snake and DrawSnakeGamePanel will query this, and change its value
 	private static int gameStage = BEFORE_GAME;
 
+	//FINDBUGS
 	private static long clockInterval; //controls game speed
 	//Every time the clock ticks, the snake moves
 	//This is the time between clock ticks, in milliseconds
@@ -70,9 +72,9 @@ public class SnakeGame {
 		snakePanel.requestFocusInWindow(); //required to give this component the focus so it can generate KeyEvents
 
 		snakeFrame.add(snakePanel);
-
 		//Add listeners to listen for key presses
 		snakePanel.addKeyListener(new GameControls());
+		//FINDBUGS
 		snakePanel.addKeyListener(new SnakeControls(getSnake()));
 
 		// BA: game stage already set in initializeGame()
@@ -90,6 +92,7 @@ public class SnakeGame {
 		ySquares = yPixelMaxDimension / squareSize;
 
 		componentManager = new GameComponentManager();
+		//FINDBUGS
 		setSnake(new Snake(xSquares, ySquares, squareSize));
 		Kibble kibble = new Kibble(getSnake());
 		componentManager.addSnake(getSnake());
@@ -102,11 +105,11 @@ public class SnakeGame {
 
 		gameStage = BEFORE_GAME;
 	}
-
+	//FINDBUGS
 	public static void setSnake(Snake snake) {
 		SnakeGame.snake = snake;
 	}
-
+	//FINDBUGS
 	public static Snake getSnake() {
 		return snake;
 	}
@@ -151,23 +154,23 @@ public class SnakeGame {
 	public static Score getScore(){
 		return score;
 	}
-
+	//FINDBUGS
 	public static int getxPixelMaxDimension() {
 		return xPixelMaxDimension;
 	}
-
+	//FINDBUGS
 	public static int getyPixelMaxDimension() {
 		return yPixelMaxDimension;
 	}
-
+	//FINDBUGS
 	public static int getxSquares() {
 		return xSquares;
 	}
-
+	//FINDBUGS
 	public static int getySquares() {
 		return ySquares;
 	}
-
+	//FINDBUGS
 	public static int getSquareSize() {
 		return squareSize;
 	}

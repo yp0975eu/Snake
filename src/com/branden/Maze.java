@@ -33,6 +33,7 @@ public class Maze extends Gameboard{
         // both must be false to continue
         while (blockInSnake == true || blockInMaze == true) {
             //Generate random location
+            //FINDBUGS
             blockX = rng.nextInt(SnakeGame.getxSquares());
             blockY = rng.nextInt(SnakeGame.getySquares());
             // test if in snake

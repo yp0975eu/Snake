@@ -11,9 +11,9 @@ import javax.swing.JPanel;
  *
  */
 public class DrawSnakeGamePanel extends JPanel {
-	
+	//FINDBUGS
 	private int gameStage = SnakeGame.BEFORE_GAME;  //use this to figure out what to paint
-	
+
 	private Snake snake;
 	private Kibble kibble;
 	private Score score;
@@ -27,6 +27,7 @@ public class DrawSnakeGamePanel extends JPanel {
 	}
 	
 	public Dimension getPreferredSize() {
+		//FINDBUGS
         return new Dimension(SnakeGame.getxPixelMaxDimension(), SnakeGame.getyPixelMaxDimension());
     }
 
@@ -59,6 +60,7 @@ public class DrawSnakeGamePanel extends JPanel {
 				displayGameWon(g);
 				break;
         	}
+			//FINDBUGS
 			default : {
 				displayInstructions(g);
 			}
@@ -99,7 +101,7 @@ public class DrawSnakeGamePanel extends JPanel {
 	}
 
 	private void displayGameGrid(Graphics g) {
-
+		//FINDBUGS
 		int maxX = SnakeGame.getxPixelMaxDimension();
 		int maxY= SnakeGame.getyPixelMaxDimension();
 		int squareSize = SnakeGame.getSquareSize();
@@ -123,9 +125,11 @@ public class DrawSnakeGamePanel extends JPanel {
 		//Draw the kibble in green
 		g.setColor(Color.WHITE);
 
+		//FINDBUGS
 		int x = kibble.getKibbleX() * SnakeGame.getSquareSize();
 		int y = kibble.getKibbleY() * SnakeGame.getSquareSize();
 
+		//FINDBUGS
 		g.fillRect(x+1, y+1, SnakeGame.getSquareSize()-2, SnakeGame.getSquareSize()-2);
 		
 	}
@@ -137,11 +141,14 @@ public class DrawSnakeGamePanel extends JPanel {
 		//Draw head in grey
 		g.setColor(Color.WHITE);
 		Point head = coordinates.pop();
+
+		//FINDBUGS
 		g.fillRect((int)head.getX(), (int)head.getY(), SnakeGame.getSquareSize(), SnakeGame.getSquareSize());
 		
 		//Draw rest of snake in black
 		g.setColor(Color.WHITE);
 		for (Point p : coordinates) {
+			//FINDBUGS
 			g.fillRect((int)p.getX(), (int)p.getY(), SnakeGame.getSquareSize(), SnakeGame.getSquareSize());
 		}
 	}
@@ -151,6 +158,7 @@ public class DrawSnakeGamePanel extends JPanel {
 		g.setColor(Color.DARK_GRAY);
 		LinkedList<Point> coordinates = maze.segmentsToDraw();
 		for (Point p : coordinates) {
+			//FINDBUGS
 			g.fillRect((int)p.getX(), (int)p.getY(), SnakeGame.getSquareSize(), SnakeGame.getSquareSize());
 		}
 	}
