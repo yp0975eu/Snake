@@ -12,7 +12,7 @@ import javax.swing.JPanel;
  */
 public class DrawSnakeGamePanel extends JPanel {
 	
-	private static int gameStage = SnakeGame.BEFORE_GAME;  //use this to figure out what to paint
+	private int gameStage = SnakeGame.BEFORE_GAME;  //use this to figure out what to paint
 	
 	private Snake snake;
 	private Kibble kibble;
@@ -27,7 +27,7 @@ public class DrawSnakeGamePanel extends JPanel {
 	}
 	
 	public Dimension getPreferredSize() {
-        return new Dimension(SnakeGame.xPixelMaxDimension, SnakeGame.yPixelMaxDimension);
+        return new Dimension(SnakeGame.getxPixelMaxDimension(), SnakeGame.getyPixelMaxDimension());
     }
 
     public void paintComponent(Graphics g) {
@@ -59,6 +59,9 @@ public class DrawSnakeGamePanel extends JPanel {
 				displayGameWon(g);
 				break;
         	}
+			default : {
+				displayInstructions(g);
+			}
         }
     }
 
@@ -97,9 +100,9 @@ public class DrawSnakeGamePanel extends JPanel {
 
 	private void displayGameGrid(Graphics g) {
 
-		int maxX = SnakeGame.xPixelMaxDimension;
-		int maxY= SnakeGame.yPixelMaxDimension;
-		int squareSize = SnakeGame.squareSize;
+		int maxX = SnakeGame.getxPixelMaxDimension();
+		int maxY= SnakeGame.getyPixelMaxDimension();
+		int squareSize = SnakeGame.getSquareSize();
 		
 		g.fillRect(0, 0, maxX, maxY);
 
@@ -120,10 +123,10 @@ public class DrawSnakeGamePanel extends JPanel {
 		//Draw the kibble in green
 		g.setColor(Color.WHITE);
 
-		int x = kibble.getKibbleX() * SnakeGame.squareSize;
-		int y = kibble.getKibbleY() * SnakeGame.squareSize;
+		int x = kibble.getKibbleX() * SnakeGame.getSquareSize();
+		int y = kibble.getKibbleY() * SnakeGame.getSquareSize();
 
-		g.fillRect(x+1, y+1, SnakeGame.squareSize-2, SnakeGame.squareSize-2);
+		g.fillRect(x+1, y+1, SnakeGame.getSquareSize()-2, SnakeGame.getSquareSize()-2);
 		
 	}
 
@@ -134,12 +137,12 @@ public class DrawSnakeGamePanel extends JPanel {
 		//Draw head in grey
 		g.setColor(Color.WHITE);
 		Point head = coordinates.pop();
-		g.fillRect((int)head.getX(), (int)head.getY(), SnakeGame.squareSize, SnakeGame.squareSize);
+		g.fillRect((int)head.getX(), (int)head.getY(), SnakeGame.getSquareSize(), SnakeGame.getSquareSize());
 		
 		//Draw rest of snake in black
 		g.setColor(Color.WHITE);
 		for (Point p : coordinates) {
-			g.fillRect((int)p.getX(), (int)p.getY(), SnakeGame.squareSize, SnakeGame.squareSize);
+			g.fillRect((int)p.getX(), (int)p.getY(), SnakeGame.getSquareSize(), SnakeGame.getSquareSize());
 		}
 	}
 
@@ -148,7 +151,7 @@ public class DrawSnakeGamePanel extends JPanel {
 		g.setColor(Color.DARK_GRAY);
 		LinkedList<Point> coordinates = maze.segmentsToDraw();
 		for (Point p : coordinates) {
-			g.fillRect((int)p.getX(), (int)p.getY(), SnakeGame.squareSize, SnakeGame.squareSize);
+			g.fillRect((int)p.getX(), (int)p.getY(), SnakeGame.getSquareSize(), SnakeGame.getSquareSize());
 		}
 	}
 

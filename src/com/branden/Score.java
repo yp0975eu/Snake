@@ -1,27 +1,23 @@
 package com.branden;
-
-/** Keeps track of, and display the user's score
- * 
- */
-
+//Keeps track of, and display the user's score
 
 public class Score {
 
-	protected static int score;
-	protected static int highScore = 0;
-	protected static int increment;
+	private int score;
+	private int highScore = 0;
+	private int increment;
 	
 	public Score(){
 		score = 0;
-		increment = 1;  //how many points for eating a kibble
+		setIncrement(1);  //how many points for eating a kibble
 		//Possible TODO get more points for eating kibbles, the longer the snake gets?
 	}
 	
-	public static void resetScore() {
-		score = 0;	
+	public void resetScore() {
+		score= 0;
 	}
 	
-	public static void increaseScore() {
+	public void increaseScore() {
 		
 		score = score + increment;
 		
@@ -62,6 +58,9 @@ public class Score {
 	public String getStringHighScore() {
 		return Integer.toString(highScore);
 	}
-	
+
+	public void setIncrement(int increment){
+		this.increment = increment;
+	}
 }
 

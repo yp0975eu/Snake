@@ -1,6 +1,5 @@
 package com.branden;
 
-import java.util.HashMap;
 import java.util.Timer;
 
 import javax.swing.*;
@@ -8,24 +7,24 @@ import javax.swing.*;
 
 public class SnakeGame {
 
-	public static int xPixelMaxDimension;
-	public static int yPixelMaxDimension;
-	public static int xSquares ;
-	public static int ySquares ;
-	public static int squareSize;
+	private static int xPixelMaxDimension;
+	private static int yPixelMaxDimension;
+	private static int xSquares ;
+	private static int ySquares ;
+	private static int squareSize;
 	private static final int borderSize = 1;
 	// the snake will always be 1 tenth the boardGameWidth
 	private static final double snakeToWindowRatio = .01;
 
 
-	protected static Snake snake ;
-	protected static Maze maze ;
+	private static Snake snake;
+	private static Maze maze;
 	private static GameComponentManager componentManager;
 	// option variables
 	private static boolean useMazes;
 	private static boolean useWarp;
 
-	protected static Score score;
+	private static Score score;
 
 	//The numerical values of these variables are not important.
 	//The important thing is to use the constant instead of the values so you are clear what you are setting.
@@ -41,7 +40,7 @@ public class SnakeGame {
 	//Other classes like Snake and DrawSnakeGamePanel will query this, and change its value
 	private static int gameStage = BEFORE_GAME;
 
-	protected static long clockInterval; //controls game speed
+	private static long clockInterval; //controls game speed
 	//Every time the clock ticks, the snake moves
 	//This is the time between clock ticks, in milliseconds
 	//1000 milliseconds = 1 second.
@@ -74,7 +73,7 @@ public class SnakeGame {
 
 		//Add listeners to listen for key presses
 		snakePanel.addKeyListener(new GameControls());
-		snakePanel.addKeyListener(new SnakeControls(snake));
+		snakePanel.addKeyListener(new SnakeControls(getSnake()));
 
 		// BA: game stage already set in initializeGame()
 		// setGameStage(BEFORE_GAME);
@@ -91,9 +90,9 @@ public class SnakeGame {
 		ySquares = yPixelMaxDimension / squareSize;
 
 		componentManager = new GameComponentManager();
-		snake = new Snake(xSquares, ySquares, squareSize);
-		Kibble kibble = new Kibble(snake);
-		componentManager.addSnake(snake);
+		setSnake(new Snake(xSquares, ySquares, squareSize));
+		Kibble kibble = new Kibble(getSnake());
+		componentManager.addSnake(getSnake());
 		componentManager.addKibble(kibble);
 		maze = new Maze(xSquares, ySquares, squareSize, useMazes);
 		componentManager.addMaze(maze);
@@ -102,6 +101,14 @@ public class SnakeGame {
 		componentManager.addScore(score);
 
 		gameStage = BEFORE_GAME;
+	}
+
+	public static void setSnake(Snake snake) {
+		SnakeGame.snake = snake;
+	}
+
+	public static Snake getSnake() {
+		return snake;
 	}
 
 	protected static void newGame() {
@@ -140,5 +147,28 @@ public class SnakeGame {
 		yPixelMaxDimension = windowSize + borderSize;
 
 		squareSize = (int)( windowSize * snakeToWindowRatio ) ;
+	}
+	public static Score getScore(){
+		return score;
+	}
+
+	public static int getxPixelMaxDimension() {
+		return xPixelMaxDimension;
+	}
+
+	public static int getyPixelMaxDimension() {
+		return yPixelMaxDimension;
+	}
+
+	public static int getxSquares() {
+		return xSquares;
+	}
+
+	public static int getySquares() {
+		return ySquares;
+	}
+
+	public static int getSquareSize() {
+		return squareSize;
 	}
 }

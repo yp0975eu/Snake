@@ -22,7 +22,7 @@ public class Options extends JFrame{
     private int screenSize;
     private boolean mazes;
     private boolean warp;
-    private boolean errors;
+    private int errors;
 
     Options(){
         setContentPane(rootPanel);
@@ -31,42 +31,42 @@ public class Options extends JFrame{
         startGameButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                // set error count to 0, if it's still at 0 when the start game button is pushed then play game
+                errors = 0;
                 // check that game speed is an int and is within range
-
                 try {
                     gameSpeed = Integer.parseInt(gameSpeedTextField.getText());
+
                     if (gameSpeed < 1 || gameSpeed > 10) {
                         throw new Exception();
                     }
                     // game speed is in milliseconds.
                     // multiplying by 100 allows for adjusting the game speed by the 10th of a second
                     gameSpeed *= 100;
-                    errors = false;
-                }
-                catch(Exception err){
+                } catch (Exception err) {
                     gameSpeedErrorLabel.setText("Only numbers between 1 and 10 allowed.");
                     pack();
-                    errors = true;
+                    errors++;
                 }
-                try{
+                try {
                     // TODO: constrain window size to prevent making playing board off screen
                     screenSize = Integer.parseInt(screenSizeTextField.getText());
-                    if ( screenSize < 5 || screenSize > 10 ){
+                    if (screenSize < 5 || screenSize > 10) {
                         throw new Exception();
                     }
                     screenSize *= 100;
-                    errors = false;
-                }catch (Exception err){
+                } catch (Exception err) {
                     screenSizeErrorLabel.setText("Enter number between 5 and 10");
                     pack();
-                    errors = true;
+                    errors++;
                 }
+
                 // check that screen size is within range
                 // check for mazes
                 mazes = mazesOnCheckBox.isSelected();
                 // check for warp
                 warp = warpWallsOnCheckBox.isSelected();
-                if ( !errors ) {
+                if (errors == 0) {
                     SwingUtilities.invokeLater(new Runnable() {
                         public void run() {
                             SnakeGame.setGameSpeed(gameSpeed);
@@ -79,6 +79,7 @@ public class Options extends JFrame{
                     });
                 }
             }
+
         });
     }
 

@@ -4,11 +4,13 @@ import java.awt.Point;
 import java.util.LinkedList;
 
 public class Snake extends Gameboard{
-
-	final int DIRECTION_UP = 0;
-	final int DIRECTION_DOWN = 1;
-	final int DIRECTION_LEFT = 2;
-	final int DIRECTION_RIGHT = 3;  //These are completely arbitrary numbers. 
+	// changed to static because these belong to the class,
+	// private to prevent unauthorized access,
+	// final to prevent being written to.
+	private static final int DIRECTION_UP = 0;
+	private static final int DIRECTION_DOWN = 1;
+	private static final int DIRECTION_LEFT = 2;
+	private static final int DIRECTION_RIGHT = 3;  //These are completely arbitrary numbers.
 
 	private boolean hitWall = false;
 	private boolean ateTail = false;
@@ -238,15 +240,21 @@ public class Snake extends Gameboard{
 	}
 
 	public String toString(){
+		// https://docs.oracle.com/javase/7/docs/api/java/lang/StringBuilder.html
+		// String builder needs to be initialized with a capacity.
+		// The capacity is the size of the snakeSquares array plus the number of rows to hold newline characters
+		StringBuilder stringBuilder = new StringBuilder( (SnakeGame.getxSquares() * SnakeGame.getSquareSize() ) + SnakeGame.getxSquares());
 		String textsnake = "";
-		//This looks the wrong way around. Actually need to do it this way or snake is drawn flipped 90 degrees. 
+		//This looks the wrong way around. Actually need to do it this way or snake is drawn flipped 90 degrees.
 		for (int y = 0 ; y < maxY ; y++) {
 			for (int x = 0 ; x < maxX ; x++){
-				textsnake = textsnake + snakeSquares[x][y];
+				stringBuilder.append(snakeSquares[x][y]);
+				//textsnake = textsnake + snakeSquares[x][y];
 			}
-			textsnake += "\n";
+			stringBuilder.append("\n");
+			//textsnake += "\n";
 		}
-		return textsnake;
+		return stringBuilder.toString();
 	}
 
 	public boolean wonGame() {

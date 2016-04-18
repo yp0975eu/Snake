@@ -36,6 +36,11 @@ public class GameClock extends TimerTask {
 				this.cancel();   //stop Timer
 				break;
 			}
+			default:{
+				// if the switch falls through to default then stop timer.
+				this.cancel();   //stop Timer
+				break;
+			}
 		}
 				
 		gamePanel.repaint();		//In every circumstance, must update screen

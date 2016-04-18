@@ -27,7 +27,7 @@ public class GameControls implements KeyListener{
 		}
 		
 		if (SnakeGame.getGameStage() == SnakeGame.GAME_OVER){
-			Score.resetScore();
+			SnakeGame.getScore().resetScore();
 
 			//Need to start the timer and start the game again
 			SnakeGame.newGame();
