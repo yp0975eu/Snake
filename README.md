@@ -1,5 +1,4 @@
 # Snake
-
-First prototype of a Snake game.
-
-Java students, please add the features specified in the project description.
+Forked from minneapolis-edu/Snake
+Snake II written in Java. 
+Includes warp walls, mazes, adjustments for speed control and playing field size. 
