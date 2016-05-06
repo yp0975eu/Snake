@@ -55,7 +55,7 @@ public class Options extends JFrame{
                     if (screenSize < 5 || screenSize > 10) {
                         throw new Exception();
                     }
-                    screenSize *= 100;
+                    screenSize = 1000;
                 } catch (Exception err) {
                     screenSizeErrorLabel.setText("Enter number between 5 and 10");
                     pack();
@@ -78,6 +78,7 @@ public class Options extends JFrame{
                             SnakeGame.setWarp(warp);
                             SnakeGame.initializeGame();
                             SnakeGame.createAndShowGUI();
+                            SnakeGame.newGame();
                         }
                     });
                 }

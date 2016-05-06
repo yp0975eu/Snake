@@ -32,7 +32,7 @@ public class DrawSnakeGamePanel extends JPanel {
     }
 
     public void paintComponent(Graphics g) {
-        super.paintComponent(g);       
+        super.paintComponent(g);
 
         /* Where are we at in the game? 4 phases.. 
          * 1. Before game starts
@@ -95,29 +95,23 @@ public class DrawSnakeGamePanel extends JPanel {
 	private void displayGame(Graphics g) {
 		displayGameGrid(g);
 		displaySnake(g);
+		drawGameGridKey(g);
 		displayKibble(g);
 		displayMaze(g);
 
 	}
 
+	// display current x,y coords for snake head in lower right hand of screen
+	private void drawGameGridKey(Graphics g) {
+		int maxX = SnakeGame.getxPixelMaxDimension();
+		int maxY= SnakeGame.getyPixelMaxDimension();
+		g.drawString(snake.getSnakeHead(),maxX -100, maxY-50);
+	}
 	private void displayGameGrid(Graphics g) {
 		//FINDBUGS
 		int maxX = SnakeGame.getxPixelMaxDimension();
 		int maxY= SnakeGame.getyPixelMaxDimension();
-		int squareSize = SnakeGame.getSquareSize();
-		
 		g.fillRect(0, 0, maxX, maxY);
-
-		g.setColor(Color.BLACK);
-
-		//Draw grid - horizontal lines
-		for (int y=0; y <= maxY ; y+= squareSize){			
-			g.drawLine(0, y, maxX, y);
-		}
-		//Draw grid - vertical lines
-		for (int x=0; x <= maxX ; x+= squareSize){			
-			g.drawLine(x, 0, x, maxY);
-		}
 	}
 
 	private void displayKibble(Graphics g) {
@@ -137,19 +131,24 @@ public class DrawSnakeGamePanel extends JPanel {
 	private void displaySnake(Graphics g) {
 
 		LinkedList<Point> coordinates = snake.segmentsToDraw();
-		
+
 		//Draw head in grey
 		g.setColor(Color.WHITE);
 		Point head = coordinates.pop();
-
+		//System.out.println(head);
 		//FINDBUGS
-		g.fillRect((int)head.getX(), (int)head.getY(), SnakeGame.getSquareSize(), SnakeGame.getSquareSize());
+		g.fillRect(
+				(int) (head.getX() % SnakeGame.getyPixelMaxDimension()),
+				(int) (head.getY()% SnakeGame.getxPixelMaxDimension()),
+				SnakeGame.getSquareSize(),
+				SnakeGame.getSquareSize()
+		);
 		
 		//Draw rest of snake in black
 		g.setColor(Color.WHITE);
 		for (Point p : coordinates) {
 			//FINDBUGS
-			g.fillRect((int)p.getX(), (int)p.getY(), SnakeGame.getSquareSize(), SnakeGame.getSquareSize());
+			g.fillOval((int)p.getX(), (int)p.getY(), SnakeGame.getSquareSize(), SnakeGame.getSquareSize());
 		}
 	}
 

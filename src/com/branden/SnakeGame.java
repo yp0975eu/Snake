@@ -89,9 +89,12 @@ public class SnakeGame {
 
 		//set up score, snake and first kibble
 		// BA: int division truncates decimal
-		xSquares = xPixelMaxDimension / squareSize;
-		ySquares = yPixelMaxDimension / squareSize;
+	/*	xSquares = xPixelMaxDimension / squareSize;
+		ySquares = yPixelMaxDimension / squareSize;*/
 
+		// sets the game board grid to be x times as large as the viewport screen
+		xSquares = (int) (xPixelMaxDimension * 2);
+		ySquares = (int) (yPixelMaxDimension * 2);
 		componentManager = new GameComponentManager();
 		//FINDBUGS
 		setSnake(new Snake(xSquares, ySquares, squareSize));
@@ -154,10 +157,13 @@ public class SnakeGame {
 
 	public static void setScreenSize(int windowSize){
 		//Pixels in window. 501 to have 50-pixel squares plus 1 to draw a border on last square
+		windowSize = 500;
 		xPixelMaxDimension = windowSize + borderSize;
 		yPixelMaxDimension = windowSize + borderSize;
 
-		squareSize = (int)( windowSize * snakeToWindowRatio ) ;
+		//squareSize = (int)( windowSize * snakeToWindowRatio ) ;
+		squareSize = (int)( windowSize * .01 ) ;
+
 	}
 	public static Score getScore(){
 		return score;

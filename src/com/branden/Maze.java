@@ -46,6 +46,7 @@ public class Maze extends Gameboard{
         mazeBlocks[blockX][blockY] = ACTIVE;
         numberOfBlocks++;
 
+
     }
 
     // returns true if coordinates in mazeBlocks are active

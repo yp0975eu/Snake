@@ -94,7 +94,7 @@ public class Snake extends Gameboard{
 	// BA: needs maze parameter to test if it has hit the maze
 	protected void moveSnake(Maze maze){
 		//Called every clock tick
-		
+		//System.out.printf("(%d,%d)\n",snakeHeadX,snakeHeadY);
 		//Must check that the direction snake is being sent in is not contrary to current heading
 		//So if current heading is down, and snake is being sent up, then should ignore.
 		//Without this code, if the snake is heading up, and the user presses left then down quickly, the snake will back into itself.
@@ -291,7 +291,23 @@ public class Snake extends Gameboard{
 		}
 		return false;
 	}
+	public int getSnakeHeadX(){
+		return snakeHeadX;
+	}
+	public int getSnakeHeadY(){
+		return snakeHeadY;
 
+	}
+	public String getSnakeHead(){
+		return String.format("(%d,%d)\n",snakeHeadX,snakeHeadY);
+	}
+
+	public int getRelativeX(){
+		return (int) (snakeHeadX / maxX);
+	}
+	public int getRelativeY(){
+		return (int) (snakeHeadY / maxY);
+	}
 
 }
 
