@@ -2,6 +2,7 @@ package com.branden;
 
 import java.awt.Point;
 import java.util.LinkedList;
+import java.util.Random;
 
 public class Snake extends Gameboard{
 	//FINDBUGS
@@ -42,17 +43,23 @@ public class Snake extends Gameboard{
 	}
 
 	protected void createStartSnake(){
-		//snake starts as 3 horizontal squares in the center of the screen, moving left
-		int screenXCenter = (int) maxX/2;  //Cast just in case we have an odd number
-		int screenYCenter = (int) maxY/2;  //Cast just in case we have an odd number
 
-		snakeSquares[screenXCenter][screenYCenter] = 1;
-		snakeSquares[screenXCenter+1][screenYCenter] = 2;
-		snakeSquares[screenXCenter+2][screenYCenter] = 3;
+		// TODO randomize start position, and at the same time always center snake in viewport
+		//snake starts as 3 horizontal squares in the center of the screen, moving left
+		Random random = new Random();
+
+		//TODO if screen center is less than viewport padding then get a new start position.
+
+		int startPositionX = (int) (random.nextInt(maxX)/2);  //Cast just in case we have an odd number
+		int startPositionY = (int) (random.nextInt(maxY)/2);  //Cast just in case we have an odd number
+
+		snakeSquares[startPositionX][startPositionY] = 1;
+		snakeSquares[startPositionX+1][startPositionY] = 2;
+		snakeSquares[startPositionX+2][startPositionY] = 3;
 
 		// BA: initialize the snake head, size, heading justAteMustGrowThisMuch
-		snakeHeadX = screenXCenter;
-		snakeHeadY = screenYCenter;
+		snakeHeadX = startPositionX;
+		snakeHeadY = startPositionY;
 
 		snakeSize = 3;
 

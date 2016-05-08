@@ -1,6 +1,7 @@
 package com.branden;
 
 import java.awt.*;
+import java.awt.geom.Point2D;
 import java.util.LinkedList;
 
 import javax.swing.JPanel;
@@ -109,8 +110,25 @@ public class DrawSnakeGamePanel extends JPanel {
 	}
 	private void displayGameGrid(Graphics g) {
 		//FINDBUGS
+
 		int maxX = SnakeGame.getxPixelMaxDimension();
-		int maxY= SnakeGame.getyPixelMaxDimension();
+		int maxY = SnakeGame.getyPixelMaxDimension();
+
+		Graphics2D g2d = (Graphics2D) g;
+
+		// create gradient background that repeats, move it according to players direction
+		// use the head of the snake as a reference  to move the background.
+
+
+		//https://docs.oracle.com/javase/7/docs/api/java/awt/RadialGradientPaint.html
+		Point2D center = new Point2D.Float(snake.getSnakeHeadX(), snake.getSnakeHeadY());
+		float radius = 25;
+		float[] dist = {0.0f, 0.2f, 1.0f};
+		Color[] colors = {Color.RED, Color.WHITE, Color.BLUE};
+		RadialGradientPaint p =
+				new RadialGradientPaint(center, radius, dist, colors, RadialGradientPaint.CycleMethod.REPEAT);
+		g2d.setPaint(p);
+
 		g.fillRect(0, 0, maxX, maxY);
 	}
 
@@ -135,14 +153,14 @@ public class DrawSnakeGamePanel extends JPanel {
 		//Draw head in grey
 		g.setColor(Color.WHITE);
 		Point head = coordinates.pop();
-		//System.out.println(head);
-		//FINDBUGS
-		g.fillRect(
-				(int) (head.getX() % SnakeGame.getyPixelMaxDimension()),
-				(int) (head.getY()% SnakeGame.getxPixelMaxDimension()),
-				SnakeGame.getSquareSize(),
-				SnakeGame.getSquareSize()
-		);
+
+
+		// snake will always be centered in screen. The background will move
+		int drawX =  SnakeGame.getxPixelMaxDimension() / 2;
+		int drawY =  SnakeGame.getyPixelMaxDimension() / 2;
+
+
+		g.fillRect( drawX, drawY, SnakeGame.getSquareSize(), SnakeGame.getSquareSize());
 		
 		//Draw rest of snake in black
 		g.setColor(Color.WHITE);
