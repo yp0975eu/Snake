@@ -33,7 +33,7 @@ public class Snake extends Gameboard{
 	private int justAteMustGrowThisMuch = 0;
 	// BA: Moved to superclass
 	//private int maxX, maxY, squareSize;
-	private int snakeHeadX, snakeHeadY; //store coordinates of head - first segment
+	private int snakeHeadX, snakeHeadY, startHeadX, startHeadY; //store coordinates of head - first segment
 
 	public Snake(int maxX, int maxY, int squareSize){
 		super(maxX, maxY,squareSize);
@@ -58,8 +58,8 @@ public class Snake extends Gameboard{
 		snakeSquares[startPositionX+2][startPositionY] = 3;
 
 		// BA: initialize the snake head, size, heading justAteMustGrowThisMuch
-		snakeHeadX = startPositionX;
-		snakeHeadY = startPositionY;
+		startHeadX = snakeHeadX = startPositionX;
+		startHeadY = snakeHeadY = startPositionY;
 
 		snakeSize = 3;
 
@@ -310,10 +310,10 @@ public class Snake extends Gameboard{
 	}
 
 	public int getRelativeX(){
-		return (int) (snakeHeadX / maxX);
+		return (int) (startHeadX - snakeHeadX );
 	}
 	public int getRelativeY(){
-		return (int) (snakeHeadY / maxY);
+		return (int) (startHeadY - snakeHeadY);
 	}
 
 }

@@ -1,6 +1,7 @@
 package com.branden;
 
 import java.awt.*;
+import java.awt.geom.AffineTransform;
 import java.awt.geom.Point2D;
 import java.util.LinkedList;
 
@@ -106,30 +107,66 @@ public class DrawSnakeGamePanel extends JPanel {
 	private void drawGameGridKey(Graphics g) {
 		int maxX = SnakeGame.getxPixelMaxDimension();
 		int maxY= SnakeGame.getyPixelMaxDimension();
+		g.setColor(Color.GREEN);
 		g.drawString(snake.getSnakeHead(),maxX -100, maxY-50);
 	}
 	private void displayGameGrid(Graphics g) {
 		//FINDBUGS
-
+		// display game grid relative to snake position.
+		// if snake moves up, game grid should move down
 		int maxX = SnakeGame.getxPixelMaxDimension();
 		int maxY = SnakeGame.getyPixelMaxDimension();
+		g.setColor(Color.BLUE);
 
+		// tile the graphics
 		Graphics2D g2d = (Graphics2D) g;
+		int graphicWidth = 50;
+		int pixelCountY = -graphicWidth;
+		int pixelCountX;
+		float[] stops = { (float)0.3,(float) 0.9  };
+		Color[] colors = {Color.BLACK, Color.DARK_GRAY};
 
-		// create gradient background that repeats, move it according to players direction
-		// use the head of the snake as a reference  to move the background.
+		g.setColor(Color.DARK_GRAY);
+		g.fillRect(0,0,maxX,maxX);
 
+		while( pixelCountY < maxY) {
+			pixelCountX = -graphicWidth;
+			while (pixelCountX < maxX) {
 
-		//https://docs.oracle.com/javase/7/docs/api/java/awt/RadialGradientPaint.html
-		Point2D center = new Point2D.Float(snake.getSnakeHeadX(), snake.getSnakeHeadY());
-		float radius = 25;
-		float[] dist = {0.0f, 0.2f, 1.0f};
-		Color[] colors = {Color.RED, Color.WHITE, Color.BLUE};
-		RadialGradientPaint p =
-				new RadialGradientPaint(center, radius, dist, colors, RadialGradientPaint.CycleMethod.REPEAT);
-		g2d.setPaint(p);
+				int offsetX = snake.getRelativeX() % graphicWidth;
+				int offsetY = snake.getRelativeY() % graphicWidth;
 
-		g.fillRect(0, 0, maxX, maxY);
+				RadialGradientPaint radialGradientPaint =
+						new RadialGradientPaint( (pixelCountX + offsetX) + graphicWidth/2, pixelCountY + offsetY+ graphicWidth/2, 10, stops, colors);
+				g2d.setPaint(radialGradientPaint);
+				g2d.fillOval(pixelCountX + offsetX, pixelCountY + offsetY, graphicWidth, graphicWidth);
+				pixelCountX += graphicWidth;
+			}
+			pixelCountY += graphicWidth;
+		}
+
+		// draw game boundary
+		g.setColor(Color.WHITE);
+		// if snake gets close to game boarder comes into view then display it
+		if ( snake.getSnakeHeadX() < maxX/2){
+			g.fillRect(0, 0, 0+( maxX/2 - snake.getSnakeHeadX()),maxY);
+
+		}
+		if ( snake.getSnakeHeadX() > (SnakeGame.getxSquares() - maxX/2) ){
+			g.fillRect(maxX - ( snake.getSnakeHeadX() - (SnakeGame.getxSquares() - maxX/2)),0, 0 +( snake.getSnakeHeadX() - (SnakeGame.getxSquares() - maxX/2)) ,maxY);
+
+		}
+		if ( snake.getSnakeHeadY() < maxY/2){
+			g.fillRect(0, 0,maxX,0+( maxY/2  - snake.getSnakeHeadY() ));
+		}
+		if ( snake.getSnakeHeadY() > (SnakeGame.getySquares() - maxY/2)){
+			// orignX, orignY, width, height ( 0 + distance between head and maxYsquares)
+			g.fillRect(0,
+					maxY - (snake.getSnakeHeadY() - (SnakeGame.getySquares() - maxY/2)),
+					maxX,
+					0 + (snake.getSnakeHeadY() - (SnakeGame.getySquares() - maxY/2)));
+		}
+
 	}
 
 	private void displayKibble(Graphics g) {
@@ -159,10 +196,10 @@ public class DrawSnakeGamePanel extends JPanel {
 		int drawX =  SnakeGame.getxPixelMaxDimension() / 2;
 		int drawY =  SnakeGame.getyPixelMaxDimension() / 2;
 
-
+		// draw head of snake
 		g.fillRect( drawX, drawY, SnakeGame.getSquareSize(), SnakeGame.getSquareSize());
 		
-		//Draw rest of snake in black
+		//Draw rest of snake
 		g.setColor(Color.WHITE);
 		for (Point p : coordinates) {
 			//FINDBUGS
