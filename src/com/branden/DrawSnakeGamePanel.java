@@ -132,7 +132,8 @@ public class DrawSnakeGamePanel extends JPanel {
 		while( pixelCountY < maxY) {
 			pixelCountX = -graphicWidth;
 			while (pixelCountX < maxX) {
-
+				// move background according the snakes position to the origin.
+				// if snake is 10px left of orign then move background 10px right
 				int offsetX = snake.getRelativeX() % graphicWidth;
 				int offsetY = snake.getRelativeY() % graphicWidth;
 
@@ -189,21 +190,29 @@ public class DrawSnakeGamePanel extends JPanel {
 
 		//Draw head in grey
 		g.setColor(Color.WHITE);
-		Point head = coordinates.pop();
-
+		// pop the head cuz we don't need it
+		coordinates.pop();
 
 		// snake will always be centered in screen. The background will move
-		int drawX =  SnakeGame.getxPixelMaxDimension() / 2;
-		int drawY =  SnakeGame.getyPixelMaxDimension() / 2;
+
+		int drawX =  snake.getSnakeHeadX() - (snake.getSnakeHeadX() - SnakeGame.getxPixelMaxDimension() / 2);
+		int drawY =  snake.getSnakeHeadY() - (snake.getSnakeHeadY() - SnakeGame.getyPixelMaxDimension() / 2);
 
 		// draw head of snake
 		g.fillRect( drawX, drawY, SnakeGame.getSquareSize(), SnakeGame.getSquareSize());
 		
 		//Draw rest of snake
-		g.setColor(Color.WHITE);
+		g.setColor(Color.PINK);
+		int bodyX;
+		int bodyY;
+		int maxX = SnakeGame.getxPixelMaxDimension();
+		int maxY = SnakeGame.getyPixelMaxDimension();
 		for (Point p : coordinates) {
 			//FINDBUGS
-			g.fillOval((int)p.getX(), (int)p.getY(), SnakeGame.getSquareSize(), SnakeGame.getSquareSize());
+			// get position body pieces relative to center
+			bodyX = (int) -((snake.getSnakeHeadX() - p.getX()) * SnakeGame.getSquareSize()) + maxX/2 ;
+			bodyY = (int) -((snake.getSnakeHeadY() - p.getY()) * SnakeGame.getSquareSize()) + maxY/2 ;
+			g.fillOval(bodyX, bodyY, SnakeGame.getSquareSize(), SnakeGame.getSquareSize());
 		}
 	}
 

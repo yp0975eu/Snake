@@ -38,7 +38,7 @@ public class Gameboard {
                 for (int y = 0 ; y < maxY ; y++) {
                     if (searchArray[x][y] == segment){
                         //make a Point for this segment's coordinates and add to list
-                        Point p = new Point(x * squareSize , y * squareSize);
+                        Point p = new Point(x , y);
                         segmentCoordinates.add(p);
                     }
                 }
