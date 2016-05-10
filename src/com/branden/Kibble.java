@@ -1,5 +1,7 @@
 package com.branden;
 
+import java.awt.*;
+import java.util.LinkedList;
 import java.util.Random;
 
 /* In this game, Snakes eat Kibble. Feel free to rename to SnakeFood or Prize or Treats or Cake or whatever. */
@@ -16,17 +18,20 @@ public class Kibble {
 	
 	private int kibbleX; //This is the square number (not pixel)
 	private int kibbleY;  //This is the square number (not pixel)
-	
+	LinkedList<Point> allKibble = new LinkedList<>();
 	public Kibble(Snake s){
 		//Kibble needs to know where the snake is, so it does not create a kibble in the snake
 		//Pick a random location for kibble, check if it is in the snake
 		//If in snake, try again
-		
-		moveKibble(s);
+
+		addKibble(s);
+		//addSetKibble(s);
 	}
-	
-	protected void moveKibble(Snake s){
-		
+
+
+
+	// add kibble to board. playing field should always have 10% of space with kibble
+	protected void addKibble(Snake s){
 		Random rng = new Random();
 		boolean kibbleInSnake = true;
 		while (kibbleInSnake == true) {
@@ -36,18 +41,26 @@ public class Kibble {
 			kibbleY = rng.nextInt(SnakeGame.getySquares());
 			kibbleInSnake = s.isSnakeSegment(kibbleX, kibbleY);
 		}
+		// add to front of list
+		allKibble.push(new Point(kibbleX,kibbleY));
 		
-		
 	}
+	protected void addSetKibble(Snake s){
 
-	public int getKibbleX() {
-		return kibbleX;
+		kibbleX = 100;
+		kibbleY = 100;
+		allKibble.push(new Point(kibbleX,kibbleY));
+
 	}
-
-	public int getKibbleY() {
-		return kibbleY;
+	public LinkedList<Point> getAllKibble(){return allKibble;}
+	public int getAllKibbleCount(){return allKibble.size();}
+	// is kibble takes a point and then returns true if the point is
+	// in the linked list
+	public boolean isKibble(Point p){
+		if ( allKibble.contains(p)){
+			allKibble.remove(p);
+			return true;
+		}
+		return false;
 	}
-
-
-	
 }

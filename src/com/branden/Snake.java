@@ -238,8 +238,9 @@ public class Snake extends Gameboard{
 	}
 
 	public boolean didEatKibble(Kibble kibble) {
-		//Is this kibble in the snake? It should be in the same square as the snake's head
-		if (kibble.getKibbleX() == snakeHeadX && kibble.getKibbleY() == snakeHeadY){
+		// Is this kibble in the snake?
+		// It should be in the same square as the snake's head
+		if ( kibble.isKibble(new Point(snakeHeadX, snakeHeadY))){
 			justAteMustGrowThisMuch += growthIncrement;
 			return true;
 		}

@@ -21,7 +21,7 @@ public class GameComponentManager {
         snake.moveSnake(maze);
         if (snake.didEatKibble(kibble)) {
 			//tell kibble to update
-            kibble.moveKibble(snake);
+            kibble.addKibble(snake);
             //FINDBUGS
             score.increaseScore();
             // if the maze is not active then all maze blocks will be 0

@@ -20,12 +20,15 @@ public class DrawSnakeGamePanel extends JPanel {
 	private Kibble kibble;
 	private Score score;
 	private Maze maze;
-
+	private int maxX;
+	private int maxY;
 	DrawSnakeGamePanel(GameComponentManager components){
 		this.snake = components.getSnake();
 		this.kibble = components.getKibble();
 		this.score = components.getScore();
 		this.maze = components.getMaze();
+		maxX = SnakeGame.getxPixelMaxDimension();
+		maxY = SnakeGame.getyPixelMaxDimension();
 	}
 	
 	public Dimension getPreferredSize() {
@@ -105,8 +108,6 @@ public class DrawSnakeGamePanel extends JPanel {
 
 	// display current x,y coords for snake head in lower right hand of screen
 	private void drawGameGridKey(Graphics g) {
-		int maxX = SnakeGame.getxPixelMaxDimension();
-		int maxY= SnakeGame.getyPixelMaxDimension();
 		g.setColor(Color.GREEN);
 		g.drawString(snake.getSnakeHead(),maxX -100, maxY-50);
 	}
@@ -114,8 +115,7 @@ public class DrawSnakeGamePanel extends JPanel {
 		//FINDBUGS
 		// display game grid relative to snake position.
 		// if snake moves up, game grid should move down
-		int maxX = SnakeGame.getxPixelMaxDimension();
-		int maxY = SnakeGame.getyPixelMaxDimension();
+
 		g.setColor(Color.BLUE);
 
 		// tile the graphics
@@ -171,17 +171,32 @@ public class DrawSnakeGamePanel extends JPanel {
 	}
 
 	private void displayKibble(Graphics g) {
+		g.setColor(Color.GREEN);
+		LinkedList<Point> allKibble = kibble.getAllKibble();
+		//kibble should always be 10% of screen
+		while ( (double)allKibble.size() / (SnakeGame.getySquares()) < .10 ){
+			kibble.addKibble(snake);
+		}
 
-		//Draw the kibble in green
-		g.setColor(Color.WHITE);
+		// display kibble, move relative to snake head.
+		int kibbleCount = allKibble.size();
+		for( int i = 0 ; i < kibbleCount; i++) {
 
-		//FINDBUGS
-		int x = kibble.getKibbleX() * SnakeGame.getSquareSize();
-		int y = kibble.getKibbleY() * SnakeGame.getSquareSize();
+			Point k = allKibble.get(i);
 
-		//FINDBUGS
-		g.fillRect(x+1, y+1, SnakeGame.getSquareSize()-2, SnakeGame.getSquareSize()-2);
-		
+			int x = (int) k.getX();
+			int y = (int) k.getY();
+			// if x/y position is within viewport range of of snake head ( 250px ) then display it
+			if ( +(snake.getSnakeHeadX() - x) < 250 && +(snake.getSnakeHeadY() - y) < 250) {
+				// draw x relative to the distance from the snake head. If snake head is 250, draw kibble at 0,
+				// if snake head is 249, draw kibble at 1 etc..
+				int drawX = x - ( snake.getSnakeHeadX() - 250 );
+				int drawY = y - ( snake.getSnakeHeadY() - 250 );
+				g.fillRect(drawX, drawY, SnakeGame.getSquareSize() - 2, SnakeGame.getSquareSize() - 2);
+			}
+
+
+		}
 	}
 
 	private void displaySnake(Graphics g) {
@@ -205,8 +220,6 @@ public class DrawSnakeGamePanel extends JPanel {
 		g.setColor(Color.PINK);
 		int bodyX;
 		int bodyY;
-		int maxX = SnakeGame.getxPixelMaxDimension();
-		int maxY = SnakeGame.getyPixelMaxDimension();
 		for (Point p : coordinates) {
 			//FINDBUGS
 			// get position body pieces relative to center
