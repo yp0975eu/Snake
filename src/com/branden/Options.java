@@ -43,7 +43,7 @@ public class Options extends JFrame{
                     }
                     // game speed is in milliseconds.
                     // multiplying by 100 allows for adjusting the game speed by the 10th of a second
-                    gameSpeed *= 100;
+                    gameSpeed = 50;
                 } catch (Exception err) {
                     gameSpeedErrorLabel.setText("Only numbers between 1 and 10 allowed.");
                     pack();

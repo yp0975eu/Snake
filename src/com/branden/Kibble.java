@@ -15,20 +15,18 @@ public class Kibble {
 	 * When the snake eats the kibble, it doesn't disappear and
 	 * get recreated, instead it moves, and then will be drawn in the new location. 
 	 */
-	
+
 	private int kibbleX; //This is the square number (not pixel)
 	private int kibbleY;  //This is the square number (not pixel)
+	private int eatingDistanceTolerance = 4;
 	LinkedList<Point> allKibble = new LinkedList<>();
 	public Kibble(Snake s){
 		//Kibble needs to know where the snake is, so it does not create a kibble in the snake
 		//Pick a random location for kibble, check if it is in the snake
 		//If in snake, try again
-
 		addKibble(s);
 		//addSetKibble(s);
 	}
-
-
 
 	// add kibble to board. playing field should always have 10% of space with kibble
 	protected void addKibble(Snake s){
@@ -43,24 +41,20 @@ public class Kibble {
 		}
 		// add to front of list
 		allKibble.push(new Point(kibbleX,kibbleY));
-		
 	}
-	protected void addSetKibble(Snake s){
 
-		kibbleX = 100;
-		kibbleY = 100;
-		allKibble.push(new Point(kibbleX,kibbleY));
-
-	}
 	public LinkedList<Point> getAllKibble(){return allKibble;}
-	public int getAllKibbleCount(){return allKibble.size();}
-	// is kibble takes a point and then returns true if the point is
-	// in the linked list
-	public boolean isKibble(Point p){
-		if ( allKibble.contains(p)){
-			allKibble.remove(p);
-			return true;
+	// isKibble takes a point and then returns true if the point is
+	// within eatingDistanceTolerance of snakeHead
+
+	public boolean isKibble(Point snakeHead){
+		for (Point p : allKibble) {
+			if (p.distance(snakeHead) < eatingDistanceTolerance) {
+				allKibble.remove(p);
+				return true;
+			}
 		}
 		return false;
+
 	}
 }

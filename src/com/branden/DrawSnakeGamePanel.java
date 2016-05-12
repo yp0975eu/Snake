@@ -1,14 +1,13 @@
 package com.branden;
 
 import java.awt.*;
-import java.awt.geom.AffineTransform;
-import java.awt.geom.Point2D;
+
 import java.util.LinkedList;
 
 import javax.swing.JPanel;
 
 /** This class responsible for displaying the graphics, so the snake, grid, kibble, instruction text and high score
- * 
+ *
  * @author Clara
  *
  */
@@ -30,25 +29,25 @@ public class DrawSnakeGamePanel extends JPanel {
 		maxX = SnakeGame.getxPixelMaxDimension();
 		maxY = SnakeGame.getyPixelMaxDimension();
 	}
-	
+
 	public Dimension getPreferredSize() {
 		//FINDBUGS
-        return new Dimension(SnakeGame.getxPixelMaxDimension(), SnakeGame.getyPixelMaxDimension());
-    }
+		return new Dimension(SnakeGame.getxPixelMaxDimension(), SnakeGame.getyPixelMaxDimension());
+	}
 
-    public void paintComponent(Graphics g) {
-        super.paintComponent(g);
+	public void paintComponent(Graphics g) {
+		super.paintComponent(g);
 
-        /* Where are we at in the game? 4 phases.. 
+        /* Where are we at in the game? 4 phases..
          * 1. Before game starts
          * 2. During game
          * 3. Game lost aka game over
          * 4. or, game won
          */
 
-        gameStage = SnakeGame.getGameStage();
-        
-        switch (gameStage) {
+		gameStage = SnakeGame.getGameStage();
+
+		switch (gameStage) {
 			case SnakeGame.BEFORE_GAME: {
 				displayInstructions(g);
 				break;
@@ -64,37 +63,37 @@ public class DrawSnakeGamePanel extends JPanel {
 			case SnakeGame.GAME_WON: {
 				displayGameWon(g);
 				break;
-        	}
+			}
 			//FINDBUGS
 			default : {
 				displayInstructions(g);
 			}
-        }
-    }
+		}
+	}
 
 	private void displayGameWon(Graphics g) {
 		// TODO Replace this with something really special!
 		g.clearRect(100,100,350,350);
 		g.drawString("YOU WON SNAKE!!!", 150, 150);
-		
+
 	}
 	private void displayGameOver(Graphics g) {
 
 		g.clearRect(100,100,350,350);
 		g.drawString("GAME OVER", 150, 150);
-		
+
 		String textScore = score.getStringScore();
 		String textHighScore = score.getStringHighScore();
 		String newHighScore = score.newHighScore();
-		
+
 		g.drawString("SCORE = " + textScore, 150, 250);
-		
+
 		g.drawString("HIGH SCORE = " + textHighScore, 150, 300);
 		g.drawString(newHighScore, 150, 400);
-		
+
 		g.drawString("press a key to play again", 150, 350);
-		g.drawString("Press q to quit the game",150,400);		
-    			
+		g.drawString("Press q to quit the game",150,400);
+
 	}
 
 	private void displayGame(Graphics g) {
@@ -187,11 +186,11 @@ public class DrawSnakeGamePanel extends JPanel {
 			int x = (int) k.getX();
 			int y = (int) k.getY();
 			// if x/y position is within viewport range of of snake head ( 250px ) then display it
-			if ( +(snake.getSnakeHeadX() - x) < 250 && +(snake.getSnakeHeadY() - y) < 250) {
+			if ( +(snake.getSnakeHeadX() - x) <  maxY/2 && +(snake.getSnakeHeadY() - y) <  maxY/2) {
 				// draw x relative to the distance from the snake head. If snake head is 250, draw kibble at 0,
 				// if snake head is 249, draw kibble at 1 etc..
-				int drawX = x - ( snake.getSnakeHeadX() - 250 );
-				int drawY = y - ( snake.getSnakeHeadY() - 250 );
+				int drawX = x - ( snake.getSnakeHeadX() -  maxY/2 );
+				int drawY = y - ( snake.getSnakeHeadY() -  maxY/2 );
 				g.fillRect(drawX, drawY, SnakeGame.getSquareSize() - 2, SnakeGame.getSquareSize() - 2);
 			}
 
@@ -215,7 +214,7 @@ public class DrawSnakeGamePanel extends JPanel {
 
 		// draw head of snake
 		g.fillRect( drawX, drawY, SnakeGame.getSquareSize(), SnakeGame.getSquareSize());
-		
+
 		//Draw rest of snake
 		g.setColor(Color.PINK);
 		int bodyX;
@@ -240,8 +239,8 @@ public class DrawSnakeGamePanel extends JPanel {
 	}
 
 	private void displayInstructions(Graphics g) {
-        g.drawString("Press any key to begin!",100,200);		
-        g.drawString("Press q to quit the game",100,300);		
-    	}
+		g.drawString("Press any key to begin!",100,200);
+		g.drawString("Press q to quit the game",100,300);
+	}
 }
 

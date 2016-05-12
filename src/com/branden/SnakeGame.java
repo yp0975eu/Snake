@@ -55,6 +55,7 @@ public class SnakeGame {
 	//http://docs.oracle.com/javase/tutorial/uiswing/painting/step2.html
 
 
+
 	protected static void createAndShowGUI() {
 		//Create and set up the window.
 		snakeFrame = new JFrame();

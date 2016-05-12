@@ -7,5 +7,7 @@ public class Main {
     public static void main(String[] args) {
         //FINDBUGS
         new Options();
+        //new Server();
+        //new Client();
     }
 }
